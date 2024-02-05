@@ -40,6 +40,7 @@ public class TaskManager {
 
     public void deleteAllEpics() {
         epics.clear();
+        subtasks.clear();
     }
 
     public void deleteAllSubtasks() {
@@ -61,39 +62,30 @@ public class TaskManager {
 
     //Медоты для создания задач
     public void createTask(Task task) {
-        if (task.getId() == 0L) {
-            id++;
-            task.setId(id);
-            tasks.put(id, task);
-        }
+        id++;
+        task.setId(id);
+        tasks.put(id, task);
         tasks.put(task.getId(), task);
     }
 
     public void createEpic(Epic epic) {
-        if (epic.getId() == 0L) {
-            id++;
-            epic.setId(id);
-        }
+        id++;
+        epic.setId(id);
         epics.put(epic.getId(), epic);
     }
 
     public void createSubtask(Subtask subtask) {
-        if (subtask.getId() == 0L) {
-            id++;
-            subtask.setId(id);
-        }
+        id++;
+        subtask.setId(id);
         subtasks.put(subtask.getId(), subtask);
         Long idEpic = subtask.getIdEpic();
         Epic epic = getEpicById(idEpic);
         if (epic != null) {
-            ArrayList<Long> idListSubtask = epic.getIdListSubtask();
-            if (idListSubtask == null) {
-                idListSubtask = new ArrayList<>();
-                epic.setIdListSubtask(idListSubtask);
-            }
-            idListSubtask.add(subtask.getId());
+            epic.getIdListSubtask().add(subtask.getId());
+            updateEpic(epic);
         }
     }
+
 
     //Методы удаления задач по id
     public void deleteTaskById(Long id) {
@@ -129,7 +121,8 @@ public class TaskManager {
         boolean isDone = true;
         boolean isNew = true;
         if (epic.getIdListSubtask().isEmpty()) {
-            isDone = false;
+            epic.setStatus(TaskStatus.NEW);
+            return;
         } else {
             for (Long idSubTask : epic.getIdListSubtask()) {
                 if (subtasks.get(idSubTask).getStatus() == TaskStatus.NEW) {
@@ -138,9 +131,12 @@ public class TaskManager {
                 if (subtasks.get(idSubTask).getStatus() == TaskStatus.DONE) {
                     isNew = false;
                 }
+                if (subtasks.get(idSubTask).getStatus() == TaskStatus.IN_PROGRESS) {
+                    epic.setStatus(TaskStatus.IN_PROGRESS);
+                    return;
+                }
             }
         }
-
 
         if (isDone && !isNew) {
             epic.setStatus(TaskStatus.DONE);
@@ -149,14 +145,13 @@ public class TaskManager {
         } else {
             epic.setStatus(TaskStatus.IN_PROGRESS);
         }
-        epics.put(epic.getId(), epic);
     }
 
     public void updateSubtask(Subtask subtask) {
         subtasks.put(subtask.getId(), subtask);
         Long idEpic = subtask.getIdEpic();
         Epic epic = getEpicById(idEpic);
-        if(epic != null) {
+        if (epic != null) {
             updateEpic(epic);
         }
     }
