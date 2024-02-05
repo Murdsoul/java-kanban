@@ -3,7 +3,7 @@ package model;
 import java.util.Objects;
 
 public class Task {
-    private String name;
+    protected String name;
     private String description;
     private Long id;
     private TaskStatus status;
