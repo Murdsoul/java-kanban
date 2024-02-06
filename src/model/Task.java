@@ -4,9 +4,9 @@ import java.util.Objects;
 
 public class Task {
     protected String name;
-    private String description;
-    private Long id;
-    private TaskStatus status;
+    protected String description;
+    protected Long id;
+    protected TaskStatus status;
 
     public Task(String name, String description, Long id, TaskStatus status) {
         this.name = name;
