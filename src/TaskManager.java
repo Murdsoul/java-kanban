@@ -64,7 +64,7 @@ public class TaskManager {
     public void createTask(Task task) {
         id++;
         task.setId(id);
-        tasks.put(id, task);
+        tasks.put(task.getId(), task);
     }
 
     public void createEpic(Epic epic) {
