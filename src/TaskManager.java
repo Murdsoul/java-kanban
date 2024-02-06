@@ -65,7 +65,6 @@ public class TaskManager {
         id++;
         task.setId(id);
         tasks.put(id, task);
-        tasks.put(task.getId(), task);
     }
 
     public void createEpic(Epic epic) {
@@ -142,10 +141,10 @@ public class TaskManager {
             epic.setStatus(TaskStatus.DONE);
         } else if (!isDone && isNew) {
             epic.setStatus(TaskStatus.NEW);
-        } else {
-            epic.setStatus(TaskStatus.IN_PROGRESS);
         }
+        epic.setStatus(TaskStatus.IN_PROGRESS);
     }
+
 
     public void updateSubtask(Subtask subtask) {
         subtasks.put(subtask.getId(), subtask);
