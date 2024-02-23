@@ -1,3 +1,4 @@
+import controllers.InMemoryTaskManager;
 import model.*;
 
 
@@ -5,7 +6,7 @@ import java.util.ArrayList;
 
 public class Main {
     public static void main(String[] args) {
-        TaskManager manager = new TaskManager();
+        InMemoryTaskManager manager = new InMemoryTaskManager();
 
         Task task1 = new Task("1Task", "1TaskDescription", 0L, TaskStatus.NEW);
         manager.createTask(task1);
