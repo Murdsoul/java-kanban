@@ -1,4 +1,4 @@
-import controllers.InMemoryTaskManager;
+import managers.InMemoryTaskManager;
 import model.*;
 
 

@@ -1,4 +1,4 @@
-package controllers;
+package managers;
 
 import model.Epic;
 import model.Subtask;
@@ -7,15 +7,17 @@ import model.TaskStatus;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 public class InMemoryTaskManager implements TaskManager {
     private Long id = 0L;
-    private final HashMap<Long, Task> tasks;
-    private final HashMap<Long, Epic> epics;
-    private final HashMap<Long, Subtask> subtasks;
+    private final Map<Long, Task> tasks;
+    private final Map<Long, Epic> epics;
+    private final Map<Long, Subtask> subtasks;
 
-    private static final HistoryManager historyManager = Managers.getDefaultHistory();
+    private final HistoryManager historyManager = Managers.getDefaultHistory();
 
     public InMemoryTaskManager() {
         tasks = new HashMap<>();
@@ -24,7 +26,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public ArrayList<Task> getHistory() {
+    public List<Task> getHistory() {
         return historyManager.getHistory();
     }
 
@@ -64,39 +66,26 @@ public class InMemoryTaskManager implements TaskManager {
     //Методы для получения задачи по Id
     @Override
     public Task getTaskById(Long id) {
-        return tasks.get(id);
+        Task task = tasks.get(id);
+        historyManager.add(task);
+        return task;
+
     }
 
     @Override
     public Epic getEpicById(Long id) {
-        return epics.get(id);
-    }
-
-    @Override
-    public Subtask getSubtaskById(Long id) {
-        return subtasks.get(id);
-    }
-
-    @Override
-    public Task getTaskUser(Long id) {
-        Task task = tasks.get(id);
-        historyManager.add(task);
-        return task;
-    }
-
-    @Override
-    public Epic getEpicUser(Long id) {
         Epic epic = epics.get(id);
         historyManager.add(epic);
         return epic;
     }
 
     @Override
-    public Subtask getSubtaskUser(Long id) {
+    public Subtask getSubtaskById(Long id) {
         Subtask subtask = subtasks.get(id);
         historyManager.add(subtask);
         return subtask;
     }
+
 
     //Медоты для создания задач
     @Override
@@ -131,18 +120,16 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public void deleteTaskById(Long id) {
         tasks.remove(id);
-        historyManager.remove(id);
     }
 
     @Override
     public void deleteEpicById(Long id) {
         Epic epic = getEpicById(id);
         epics.remove(id);
-        ArrayList<Long> subTasks = epic.getIdListSubtask();
+        List<Long> subTasks = epic.getIdListSubtask();
         for (Long idSubTask : subTasks) {
             deleteSubtaskById(idSubTask);
         }
-        historyManager.remove(id);
     }
 
     @Override
@@ -150,7 +137,6 @@ public class InMemoryTaskManager implements TaskManager {
         Subtask subTask = getSubtaskById(id);
         Long idEpic = subTask.getIdEpic();
         subtasks.remove(id);
-        historyManager.remove(id);
         if (getEpicById(idEpic) != null) {
             Epic epic = getEpicById(idEpic);
             epic.getIdListSubtask().remove(id);

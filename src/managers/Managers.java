@@ -1,4 +1,4 @@
-package controllers;
+package managers;
 
 public class Managers {
     public static HistoryManager getDefaultHistory() {

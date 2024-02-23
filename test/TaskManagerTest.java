@@ -1,5 +1,5 @@
-import controllers.Managers;
-import controllers.TaskManager;
+import managers.Managers;
+import managers.TaskManager;
 import model.Epic;
 import model.Subtask;
 import model.Task;
@@ -7,6 +7,7 @@ import model.TaskStatus;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -43,7 +44,7 @@ class TaskManagerTest {
         Task task2 = new Task("2Task", "2TaskDescription", 0L, TaskStatus.NEW);
         taskManager.createTask(task2);
 
-        final ArrayList<Task> tasks = taskManager.getAllTasks();
+        final List<Task> tasks = taskManager.getAllTasks();
         assertNotNull(tasks, "Задачи на возвращаются.");
         assertEquals(2, tasks.size(), "Неверное количество задач.");
         assertEquals(task1, tasks.get(0), "Задачи не совпадают.");
@@ -80,7 +81,7 @@ class TaskManagerTest {
         Subtask subtask13 = new Subtask("13SubTask", "13SubTaskDescription", 0L, TaskStatus.NEW, 1L);
         taskManager.createSubtask(subtask13);
 
-        final ArrayList<Subtask> subtasks = taskManager.getAllSubtasks();
+        final List<Subtask> subtasks = taskManager.getAllSubtasks();
         assertNotNull(subtasks, "Подзадачи на возвращаются.");
         assertEquals(1, subtasks.size(), "Неверное количество подзадач.");
         assertEquals(subtask13, subtasks.get(0), "Задачи не совпадают.");
@@ -123,7 +124,7 @@ class TaskManagerTest {
         Epic epic2 = new Epic("2Epic", "2EpicDescription", 0L, TaskStatus.NEW, new ArrayList<>());
         taskManager.createEpic(epic2);
 
-        final ArrayList<Epic> epics = taskManager.getAllEpics();
+        final List<Epic> epics = taskManager.getAllEpics();
         assertNotNull(epics, "Эпики на возвращаются.");
         assertEquals(2, epics.size(), "Неверное количество Эпиков.");
         assertEquals(epic1, epics.get(0), "Эпики не совпадают.");
@@ -141,8 +142,8 @@ class TaskManagerTest {
         Subtask subtask13 = new Subtask("13SubTask", "13SubTaskDescription", 0L, TaskStatus.NEW, 1L);
         taskManager.createSubtask(subtask13);
 
-        final ArrayList<Subtask> subtasks = taskManager.getSubtasksByEpicId(epic1.getId());
-        final ArrayList<Subtask> allSubtasks = taskManager.getAllSubtasks();
+        final List<Subtask> subtasks = taskManager.getSubtasksByEpicId(epic1.getId());
+        final List<Subtask> allSubtasks = taskManager.getAllSubtasks();
         assertEquals(allSubtasks, subtasks, "Подзадачи у Эпика не совпадают.");
     }
 }

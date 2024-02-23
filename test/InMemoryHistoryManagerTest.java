@@ -1,10 +1,11 @@
-import controllers.HistoryManager;
-import controllers.Managers;
+import managers.HistoryManager;
+import managers.Managers;
 import model.Task;
 import model.TaskStatus;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -13,7 +14,7 @@ public class InMemoryHistoryManagerTest {
 
     private final HistoryManager historyManager = Managers.getDefaultHistory();
 
-    ArrayList<Task> history = historyManager.getHistory();
+    List<Task> history = historyManager.getHistory();
 
 
     Task task1 = new Task("1Task", "1TaskDescription", 1L, TaskStatus.NEW);
@@ -48,42 +49,22 @@ public class InMemoryHistoryManagerTest {
     }
 
     @Test
-    void deleteTaskFromHistoryMiddle() {
-        historyManager.add(task1);
-        historyManager.add(task2);
-        historyManager.add(task3);
-        historyManager.add(task4);
-        historyManager.add(task2);
-        historyManager.remove(3L); //удаление: середина
-        history = historyManager.getHistory();
-        assertEquals(3, history.size(), "Размер истории не 3.");
+    void addMoreThan10Task() { // добавление больше 10 задач
+        for (int i = 0; i < 11; i++ ){
+            historyManager.add(task1);
+        }
+        final List<Task> history = historyManager.getHistory();
+        assertEquals(10, history.size(), "Количество задач в истории больше 10");
     }
 
     @Test
-    void deleteTaskFromHistoryEnd() {
-        historyManager.add(task1);
+    void checkingIfTheFirstElementInHistoryIsOverwritten() { // проверка перезаписался ли первый элемент в истории
+        for (int i = 0; i < 10; i++ ){
+            historyManager.add(task2);
+        }
         historyManager.add(task2);
-        historyManager.add(task3);
-        historyManager.add(task4);
-        historyManager.add(task2);
-        historyManager.remove(3L); //удаление: середина
-        historyManager.remove(2L); //удаление: конец
-        history = historyManager.getHistory();
-        assertEquals(2, history.size(), "Размер истории не 2.");
+        final List<Task> history = historyManager.getHistory();
+        assertEquals(history.get(history.size()-1),task2);
     }
 
-    @Test
-    void deleteTaskFromHistoryBegin() {
-        historyManager.add(task1);
-        historyManager.add(task2);
-        historyManager.add(task3);
-        historyManager.add(task4);
-        historyManager.add(task2);
-        historyManager.remove(3L); //удаление: середина
-        historyManager.remove(2L); //удаление: конец
-        historyManager.remove(1L); //удаление: начало
-        history = historyManager.getHistory();
-        assertEquals(1, history.size(), "Размер истории не 1.");
-        assertEquals("4Task", history.get(0).getName(), "Осталась не 4Task");
-    }
 }
