@@ -1,13 +1,13 @@
+import controllers.HistoryManager;
+import controllers.Managers;
+import model.Task;
+import model.TaskStatus;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
-
-import controllers.*;
-import model.*;
 
 import java.util.ArrayList;
-import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class InMemoryHistoryManagerTest {
 
@@ -16,11 +16,10 @@ public class InMemoryHistoryManagerTest {
     ArrayList<Task> history = historyManager.getHistory();
 
 
-
-        Task task1 = new Task("1Task", "1TaskDescription", 1L, TaskStatus.NEW);
-        Task task2 = new Task("2Task", "2TaskDescription", 2L, TaskStatus.NEW);
-        Task task3 = new Task("3Task", "3TaskDescription", 3L, TaskStatus.NEW);
-        Task task4 = new Task("4Task", "4TaskDescription", 4L, TaskStatus.NEW);
+    Task task1 = new Task("1Task", "1TaskDescription", 1L, TaskStatus.NEW);
+    Task task2 = new Task("2Task", "2TaskDescription", 2L, TaskStatus.NEW);
+    Task task3 = new Task("3Task", "3TaskDescription", 3L, TaskStatus.NEW);
+    Task task4 = new Task("4Task", "4TaskDescription", 4L, TaskStatus.NEW);
 
 
     @Test

@@ -1,15 +1,17 @@
+import controllers.Managers;
+import controllers.TaskManager;
+import model.Epic;
+import model.Subtask;
+import model.Task;
+import model.TaskStatus;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
-
-import controllers.*;
-import model.*;
 
 import java.util.ArrayList;
 
+import static org.junit.jupiter.api.Assertions.*;
 
-class TaskManagerTest{
+
+class TaskManagerTest {
 
     TaskManager taskManager = Managers.getDefault();
 
@@ -50,7 +52,7 @@ class TaskManagerTest{
     //============================ Тесты на методы с SUBTASK ============================
     @Test
     void emptyResultOnWrongIDForGetSubTask() { // c неверным идентификатором SUBTASK
-        Epic epic1 = new Epic ("1Epic", "1EpicDescription", 0L, TaskStatus.NEW, new ArrayList<>());
+        Epic epic1 = new Epic("1Epic", "1EpicDescription", 0L, TaskStatus.NEW, new ArrayList<>());
         taskManager.createEpic(epic1);
         Subtask subtask13 = new Subtask("13SubTask", "13SubTaskDescription", 0L, TaskStatus.NEW, 1L);
         taskManager.createSubtask(subtask13);
@@ -61,7 +63,7 @@ class TaskManagerTest{
 
     @Test
     void successCreateAndGetSubTaskById() { // получение SUBTASK через ID
-        Epic epic1 = new Epic ("1Epic", "1EpicDescription", 0L, TaskStatus.NEW, new ArrayList<>());
+        Epic epic1 = new Epic("1Epic", "1EpicDescription", 0L, TaskStatus.NEW, new ArrayList<>());
         taskManager.createEpic(epic1);
         Subtask subtask13 = new Subtask("13SubTask", "13SubTaskDescription", 0L, TaskStatus.NEW, 1L);
         taskManager.createSubtask(subtask13);
@@ -73,7 +75,7 @@ class TaskManagerTest{
 
     @Test
     void successGetAllSubTask() { // получение всех SUBTASK
-        Epic epic1 = new Epic ("1Epic", "1EpicDescription", 0L, TaskStatus.NEW, new ArrayList<>());
+        Epic epic1 = new Epic("1Epic", "1EpicDescription", 0L, TaskStatus.NEW, new ArrayList<>());
         taskManager.createEpic(epic1);
         Subtask subtask13 = new Subtask("13SubTask", "13SubTaskDescription", 0L, TaskStatus.NEW, 1L);
         taskManager.createSubtask(subtask13);
@@ -86,7 +88,7 @@ class TaskManagerTest{
 
     @Test
     void successFromSubTaskGetEpic() { // получение ID Epic через SUBTASK
-        Epic epic1 = new Epic ("1Epic", "1EpicDescription", 0L, TaskStatus.NEW, new ArrayList<>());
+        Epic epic1 = new Epic("1Epic", "1EpicDescription", 0L, TaskStatus.NEW, new ArrayList<>());
         taskManager.createEpic(epic1);
         Subtask subtask13 = new Subtask("13SubTask", "13SubTaskDescription", 0L, TaskStatus.NEW, 1L);
         taskManager.createSubtask(subtask13);
@@ -104,9 +106,9 @@ class TaskManagerTest{
 
     @Test
     void successCreateAndGetEpicById() { // получение EPIC через ID
-        Epic epic1 = new Epic ("1Epic", "1EpicDescription", 0L, TaskStatus.NEW, new ArrayList<>());
+        Epic epic1 = new Epic("1Epic", "1EpicDescription", 0L, TaskStatus.NEW, new ArrayList<>());
         taskManager.createEpic(epic1);
-        Subtask subtask11 = new Subtask("11SubTask", "11SubTaskDescription", 0L,TaskStatus.NEW, 1L);
+        Subtask subtask11 = new Subtask("11SubTask", "11SubTaskDescription", 0L, TaskStatus.NEW, 1L);
         taskManager.createSubtask(subtask11);
 
         final Epic savedEpic = taskManager.getEpicById(1L);
@@ -116,9 +118,9 @@ class TaskManagerTest{
 
     @Test
     void successGetAllEpics() { // получение всех EPIC
-        Epic epic1 = new Epic ("1Epic", "1EpicDescription", 0L, TaskStatus.NEW, new ArrayList<>());
+        Epic epic1 = new Epic("1Epic", "1EpicDescription", 0L, TaskStatus.NEW, new ArrayList<>());
         taskManager.createEpic(epic1);
-        Epic epic2 = new Epic ("2Epic", "2EpicDescription", 0L, TaskStatus.NEW, new ArrayList<>());
+        Epic epic2 = new Epic("2Epic", "2EpicDescription", 0L, TaskStatus.NEW, new ArrayList<>());
         taskManager.createEpic(epic2);
 
         final ArrayList<Epic> epics = taskManager.getAllEpics();
@@ -130,7 +132,7 @@ class TaskManagerTest{
 
     @Test
     void successGetAllSubTaskFromEpic() { // получение всех SUBTASK у EPIC
-        Epic epic1 = new Epic ("1Epic", "1EpicDescription", 0L, TaskStatus.NEW, new ArrayList<>());
+        Epic epic1 = new Epic("1Epic", "1EpicDescription", 0L, TaskStatus.NEW, new ArrayList<>());
         taskManager.createEpic(epic1);
         Subtask subtask11 = new Subtask("11SubTask", "11SubTaskDescription", 0L, TaskStatus.NEW, 1L);
         taskManager.createSubtask(subtask11);
