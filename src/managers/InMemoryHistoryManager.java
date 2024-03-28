@@ -14,8 +14,6 @@ public class InMemoryHistoryManager implements HistoryManager {
 
     private Node<Task> tail = null;
 
-    private int size = 0;
-
     public void removeNode(Node node) {
         if (node == head && node == tail) {
             head = null;
@@ -34,6 +32,7 @@ public class InMemoryHistoryManager implements HistoryManager {
             prevNode.next = nextNode;
             nextNode.prev = prevNode;
         }
+        historyMap.remove(node);
     }
 
     @Override
@@ -77,6 +76,5 @@ public class InMemoryHistoryManager implements HistoryManager {
         } else {
             oldTail.next = newNode;
         }
-        size++;
     }
 }
