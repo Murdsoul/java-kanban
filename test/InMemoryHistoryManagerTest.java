@@ -54,7 +54,7 @@ public class InMemoryHistoryManagerTest {
             historyManager.add(task1);
         }
         final List<Task> history = historyManager.getHistory();
-        assertEquals(10, history.size(), "Количество задач в истории больше 10");
+        assertEquals(1, history.size(), "Количество задач в истории больше 10");
     }
 
     @Test
@@ -65,6 +65,45 @@ public class InMemoryHistoryManagerTest {
         historyManager.add(task2);
         final List<Task> history = historyManager.getHistory();
         assertEquals(history.get(history.size()-1),task2);
+    }
+    @Test
+    void deleteTaskFromHistoryMiddle() {
+        historyManager.add(task1);
+        historyManager.add(task2);
+        historyManager.add(task3);
+        historyManager.add(task4);
+        historyManager.add(task2);
+        historyManager.remove(3L); //удаление: середина
+        history = historyManager.getHistory();
+        assertEquals(3, history.size(), "Размер истории не 3.");
+    }
+
+    @Test
+    void deleteTaskFromHistoryEnd() {
+        historyManager.add(task1);
+        historyManager.add(task2);
+        historyManager.add(task3);
+        historyManager.add(task4);
+        historyManager.add(task2);
+        historyManager.remove(3L); //удаление: середина
+        historyManager.remove(2L); //удаление: конец
+        history = historyManager.getHistory();
+        assertEquals(2, history.size(), "Размер истории не 2.");
+    }
+
+    @Test
+    void deleteTaskFromHistoryBegin() {
+        historyManager.add(task1);
+        historyManager.add(task2);
+        historyManager.add(task3);
+        historyManager.add(task4);
+        historyManager.add(task2);
+        historyManager.remove(3L); //удаление: середина
+        historyManager.remove(2L); //удаление: конец
+        historyManager.remove(1L); //удаление: начало
+        history = historyManager.getHistory();
+        assertEquals(1, history.size(), "Размер истории не 1.");
+        assertEquals("4Task", history.get(0).getName(), "Осталась не 4Task");
     }
 
 }
